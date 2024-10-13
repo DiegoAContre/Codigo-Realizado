@@ -1,11 +1,11 @@
 body {
-    background-color: #0a0a23;
+    background-color: #231b0a;
 }
 
 #text {
-    background-color: #0a0a23;
+    background-color: #1313bd;
     color: #ffffff;
-    padding: 10px;
+    padding: 15px;
 }
 
 #game {
@@ -22,17 +22,17 @@ body {
 
 #controls, 
 #stats {
-    border: 1px solid #0a0a23;
-    color: #0a0a23;
-    padding: 5px;
+    border: 1px solid #9b35185b;
+    color: #dddd07;
+    padding: 7px;
 }
 
 #monsterStats {
     display: none;
-    border: 1px solid #0a0a23;
+    border: 1px solid #1212db;
     color: #ffffff;
     background-color: #c70d0d;
-    padding: 5px;
+    padding: 2px;
 }
 
 .stat {
@@ -44,5 +44,5 @@ button {
     color: #0a0a23;
     background-color: #feac32;
     background-image: linear-gradient(#fecc4c, #ffac33);
-    border: 3px solid #feac32;
+    border: 3px solid #d28e27;
 }
