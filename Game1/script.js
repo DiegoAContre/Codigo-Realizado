@@ -270,7 +270,10 @@ function pick(guess) {
         health -= 10;
         healthText.innerText = health;
         if (health <= 0) {
-            lose();
+          
+          lose();
         }
     }
 }
+console.log("XDXDXDXDXD")
+console.log("Níger es un país africano ubicado en el Sahel")
