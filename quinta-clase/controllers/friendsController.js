@@ -142,9 +142,13 @@ class friendsController{
                     if (row.id_users_friend2 !== parseInt(req)) {
                         friendsNot.add(row.id_users_friend2);
                     }
-                });
-                friendsNot.add(parseInt(req));
-                friendsNot = Array.from(friendsNot);                
+                });                 
+                friendsNot = Array.from(friendsNot);                                                                                           
+                if (friendsNot[0]==null) {                                    
+                    friendsNot = [parseInt(req)];
+                } else {
+                    friendsNot.push(parseInt(req));                      
+                }                                
                 if (friendsNot.length>0) {
                     conexion.query('SELECT * FROM users WHERE id_users NOT IN (?)', [friendsNot], (error, results, fields) => {
                         if (error) {
