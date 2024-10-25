@@ -7,6 +7,7 @@
                     <li>{{title_post}}</li>
                     <li>{{description_post}}</li>
                     <li><img src="{{url_post}}" width="100px" height="100px"></li>
+                    {{#ifEquals id_users_post ../ActualUser}}
                         <div class="w3-container">
                             <form action="/post/delete/{{../ActualUser}}/{{id_post}}" method="get">
                                 <button class="w3-red" type="submit">borrar</button>
@@ -15,7 +16,7 @@
                                 <button class="w3-blue" type="submit">Actualizar</button>
                             </form> 
                         </div>        
-                    
+                    {{/ifEquals}}
                 </ul>
             {{else}}
                 <h1>Crea un post primero</h1>
