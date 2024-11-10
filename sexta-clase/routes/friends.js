@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-
+const auth = require('../helpers/auth');
 const friendsController = require('../controllers/friendsController');
 
-router.get('/:user', (req, res, next)=>{
+router.get('/', auth.verifyToken, (req, res, next)=>{
     let promesas = [];
     promesas.push(new Promise((resolve, reject) =>{        
-        friendsController.getFriendsOK(req.params.user, (error, data)=>{        
+        friendsController.getFriendsOK(req, (error, data)=>{        
             if (error) {
                 reject(error);
             } else {
@@ -15,7 +15,7 @@ router.get('/:user', (req, res, next)=>{
         });
     }));
     promesas.push(new Promise((resolve, reject) =>{        
-        friendsController.getFriendsWait(req.params.user, (error, data)=>{        
+        friendsController.getFriendsWait(req, (error, data)=>{        
             if (error) {
                 reject(error);
             } else {
@@ -24,7 +24,7 @@ router.get('/:user', (req, res, next)=>{
         });
     }));
     promesas.push(new Promise((resolve, reject) =>{        
-        friendsController.getFriendsAccept(req.params.user, (error, data)=>{        
+        friendsController.getFriendsAccept(req, (error, data)=>{        
             if (error) {
                 reject(error);
             } else {
@@ -33,7 +33,7 @@ router.get('/:user', (req, res, next)=>{
         });
     }));
     promesas.push(new Promise((resolve, reject) =>{        
-        friendsController.getFriendsNot(req.params.user, (error, data)=>{        
+        friendsController.getFriendsNot(req, (error, data)=>{        
             if (error) {
                 reject(error);
             } else {
@@ -41,10 +41,10 @@ router.get('/:user', (req, res, next)=>{
             }
         });
     }));
-
+    
     Promise.all(promesas).then((data)=>{
-        const ActualUser = req.params.user;            
-        let friendsOK = data[0];
+        const ActualUser = req.session.userId;            
+        let friendsOK = data[0];        
         let friendsWait = data[1];
         let friendsAccept = data[2];   
         let friendsNot = data[3];
@@ -54,9 +54,9 @@ router.get('/:user', (req, res, next)=>{
     });
 });
 
-router.post('/add/:user/:id', (req, res, next)=>{
+router.post('/add/:id', auth.verifyToken, (req, res, next)=>{
     new Promise((resolve, reject) => {
-        friendsController.addFriends(req.params, (error, data)=>{        
+        friendsController.addFriends(req, (error, data)=>{        
             if (error) {
                 reject(error);
             } else {
@@ -64,15 +64,15 @@ router.post('/add/:user/:id', (req, res, next)=>{
             }
         });
     }).then((data)=>{
-        res.redirect('/friends/'+req.params.user);
+        res.redirect('/friends');
     }).catch((error)=>{
         res.render('layouts/error', {error});
     });
 });
 
-router.post('/accept/:user/:id', (req, res, next)=>{
+router.post('/accept/:id', (req, res, next)=>{
     new Promise((resolve, reject) => {
-        friendsController.acceptFriends(req.params, (error, data)=>{        
+        friendsController.acceptFriends(req, (error, data)=>{        
             if (error) {
                 reject(error);
             } else {
@@ -80,16 +80,16 @@ router.post('/accept/:user/:id', (req, res, next)=>{
             }
         });
     }).then((data)=>{
-        res.redirect('/friends/'+req.params.user);
+        res.redirect('/friends');
     }).catch((error)=>{
         res.render('layouts/error', {error});
     });
 });
 
 
-router.post('/decline/:user/:id', (req, res, next)=>{
+router.post('/decline/:id', auth.verifyToken, (req, res, next)=>{
     new Promise((resolve, reject) => {
-        friendsController.declineFriends(req.params, (error, data)=>{        
+        friendsController.declineFriends(req, (error, data)=>{        
             if (error) {
                 reject(error);
             } else {
@@ -97,7 +97,7 @@ router.post('/decline/:user/:id', (req, res, next)=>{
             }
         });
     }).then((data)=>{
-        res.redirect('/friends/'+req.params.user);
+        res.redirect('/friends');
     }).catch((error)=>{
         res.render('layouts/error', {error});
     });
